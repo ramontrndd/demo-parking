@@ -8,6 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeMap;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class UserMapper {
 
    public static User toUser(UserCreateDto createDto) {
@@ -24,5 +27,9 @@ public class UserMapper {
                 mapper -> mapper.map(src -> role, UserResponseDto::setRole)
         );
         return mapperMain.map(user, UserResponseDto.class);
+    }
+
+    public static List<UserResponseDto> toDtoList(List<User> users)  {
+       return users.stream().map(UserMapper::toDto).collect(Collectors.toList());
     }
 }

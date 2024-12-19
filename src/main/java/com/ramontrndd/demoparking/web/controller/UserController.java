@@ -5,6 +5,7 @@ import com.ramontrndd.demoparking.entity.User;
 import com.ramontrndd.demoparking.service.UserService;
 
 import com.ramontrndd.demoparking.web.dto.UserCreateDto;
+import com.ramontrndd.demoparking.web.dto.UserPasswordDto;
 import com.ramontrndd.demoparking.web.dto.UserResponseDto;
 import com.ramontrndd.demoparking.web.dto.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -36,13 +37,13 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAll() {
+    public ResponseEntity<List<UserResponseDto>> getAll() {
         List<User> users = userService.findAll();
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(UserMapper.toDtoList(users));
     }
     @PatchMapping("/{id}")
-    public ResponseEntity<User> updatePassword(@PathVariable Long id, @RequestBody User user) {
-        User updatedUser = userService.editPassword(id, user.getPassword());
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody UserPasswordDto dto) {
+        User user = userService.editPassword(id, dto.getCurrentPassword(), dto.getNewPassword(), dto.getConfirmPassword());
+        return ResponseEntity.noContent().build();
     }
 }
