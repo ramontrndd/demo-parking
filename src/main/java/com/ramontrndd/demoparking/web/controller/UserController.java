@@ -4,6 +4,9 @@ package com.ramontrndd.demoparking.web.controller;
 import com.ramontrndd.demoparking.entity.User;
 import com.ramontrndd.demoparking.service.UserService;
 
+import com.ramontrndd.demoparking.web.dto.UserCreateDto;
+import com.ramontrndd.demoparking.web.dto.UserResponseDto;
+import com.ramontrndd.demoparking.web.dto.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +24,15 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user) {
-        User savedUser = userService.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    public ResponseEntity<UserResponseDto> create(@RequestBody UserCreateDto createDto) {
+        User user = userService.save(UserMapper.toUser(createDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toDto(user));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDto> getById(@PathVariable Long id) {
         User user = userService.findById(id);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(UserMapper.toDto(user));
     }
 
     @GetMapping
