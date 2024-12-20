@@ -24,28 +24,25 @@ public class UserService {
     public User save(User user) {
         try {
             return userRepository.save(user);
-        }catch (org.springframework.dao.DataIntegrityViolationException ex) {
+        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
 
             throw new UniqueNameViolationException(String.format("User with name %s already exists.", user.getName()));
         }
-
-
     }
 
     @Transactional(readOnly = true)
     public User findById(Long id) {
-
 
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("User with id %d not found.", id)));
     }
 
     @Transactional
     public User editPassword(Long id, String currentPassword, String newPassword, String confirmPassword) {
-        if(!newPassword.equals(confirmPassword)) {
+        if (!newPassword.equals(confirmPassword)) {
             throw new PasswordInvalidException("Passwords do not match.");
         }
         User user = findById(id);
-        if(!user.getPassword().equals(currentPassword)) {
+        if (!user.getPassword().equals(currentPassword)) {
             throw new PasswordInvalidException("Current password is incorrect.");
         }
         user.setPassword(newPassword);

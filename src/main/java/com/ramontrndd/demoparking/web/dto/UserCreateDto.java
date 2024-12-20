@@ -10,9 +10,9 @@ import lombok.*;
 public class UserCreateDto {
 
     @NotBlank
-    @Email(message = "Email should be valid", regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+    @Email(message = "Email should be valid", regexp = "^[a-z0-9.+-]+@[a-z0-9.-]+\\.[a-z]{2,}$")
     private String name;
     @NotBlank
-    @Size(min = 6, max=6, message = "Password should be at least 6 characters long")
+    @Size(min = 6, max=10, message = "Password should be at least 6 characters long")
     private String password;
 }

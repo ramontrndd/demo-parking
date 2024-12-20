@@ -8,10 +8,9 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 
-
 public class UserResponseDto {
 
-    private long id;
+    private Long id;
     private String name;
     private String role;
 }

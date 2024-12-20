@@ -50,7 +50,7 @@ public class ApiExceptionHandler {
     public ResponseEntity<ErrorMessage> UniqueViolationException(RuntimeException ex, HttpServletRequest request) {
 
         log.error("Validation error: {}", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request, HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage()));
+        return ResponseEntity.status(HttpStatus.CONFLICT).contentType(MediaType.APPLICATION_JSON).body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
 
 
     }
